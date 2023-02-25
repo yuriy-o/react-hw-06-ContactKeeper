@@ -1,3 +1,3 @@
-# goit-react-hw-06-phonebook
+# Homework 06 → Contact book // using React Hooks & Redux Toolkit
 
-![Creating repo from a template step 1](./assets/no_war.jpg)
+![Creating repo from a template step 1](./assets/06.jpg)
