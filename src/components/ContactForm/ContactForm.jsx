@@ -1,12 +1,11 @@
-import { Formik } from 'formik';
-import { useState } from 'react';
+import { Field, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-// import { addContact } from 'redux/contactsSlice';
-import { nanoid } from 'nanoid';
-// import { addContact } from '../redux/contacts/contacts-operations';
 import * as Yup from 'yup';
+// import ReactInputMask from 'react-input-mask';
+import InputMask from 'react-input-mask';
 
-import { addContact, getContactsValue } from 'redux/phonebookSlice';
+import { addContact } from 'redux/phonebookSlice';
+import { selectContacts } from 'redux/selectors';
 import { nanoidUA } from 'components/additions/nanoidUA';
 
 import {
@@ -15,7 +14,6 @@ import {
   Label,
   Span,
   Input,
-  InputMask,
   Error,
 } from './ContactForm.styled';
 
@@ -27,8 +25,8 @@ const Schema = Yup.object().shape({
     )
     .required(),
   number: Yup.string()
-    .min(4)
-    .max(12)
+    // .min(1)
+    // .max(4)
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
@@ -38,7 +36,7 @@ const Schema = Yup.object().shape({
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const { contacts } = useSelector(getContactsValue);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = (values, { resetForm }) => {
     resetForm();
@@ -54,7 +52,7 @@ export const ContactForm = () => {
 
     dublicateContact
       ? alert(`${contact.name} is already in contacts`)
-      : dispatch(addContact({ ...values, id: nanoid() }));
+      : dispatch(addContact({ ...values, id: nanoidUA() }));
   };
 
   const findDublicateContact = (contact, contactsList) => {
@@ -83,13 +81,51 @@ export const ContactForm = () => {
 
         <Label>
           <Span>Number</Span>
-          <InputMask
+          <Field name="number" required>
+            {({ field }) => (
+              <InputMask
+                {...field}
+                mask="+38 (099) 999-9999"
+                maskchar="_"
+                style={{
+                  marginBottom: 10,
+                  width: '97%',
+                  height: 30,
+                  fontSize: 20,
+
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontStyle: 'italic',
+                  },
+                }}
+              />
+            )}
+          </Field>
+          {/* <InputMask
             type="tel"
             name="number"
-            placeholder="Enter a phone number"
-            // placeholder="+38 (0__) ___-____"
+            mask={[
+              '+',
+              '3',
+              '8',
+              ' ',
+              '(',
+              '0',
+              /[1-9]/,
+              /\d/,
+              ')',
+              ' ',
+              /\d/,
+              /\d/,
+              /\d/,
+              '-',
+              /\d/,
+              /\d/,
+              /\d/,
+              /\d/,
+            ]}
             required
-          />
+          /> */}
           <Error component="span" name="number" />
         </Label>
 

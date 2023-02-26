@@ -1,36 +1,59 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { getContactsValue, removeContact } from 'redux/phonebookSlice';
+import { removeContact } from 'redux/phonebookSlice';
+import { selectContacts, selectFilter } from 'redux/selectors';
 
 import { Button, Li } from './ContactList.styled';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const { contacts, filter } = useSelector(getContactsValue);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
 
-  const getRequiredCard = () => {
-    const normalizedFilter = filter.toLowerCase();
+  // const getRequiredCard = () => {
+  //   const normalizedFilter = filter.toLowerCase();
 
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
+  //   return contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(normalizedFilter)
+  //   );
+  // };
 
-  const deleteCard = contactId => {
+  const normalizedFilter = filter.toLowerCase();
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizedFilter)
+  );
+
+  // const deleteCard = contactId => {
+  //   dispatch(removeContact(contactId));
+  // };
+
+  const handleDeleteContact = contactId => {
     dispatch(removeContact(contactId));
   };
 
-  const cards = getRequiredCard();
+  // const cards = getRequiredCard();
 
   return (
     <ol>
-      {cards.map(({ id, name, number }) => (
-        <Li key={id}>
-          {name}: {number}
-          <Button onClick={() => deleteCard(id)} type="button">
-            Delete
-          </Button>
-        </Li>
+      {filteredContacts.map(contact => (
+        <Contact
+          key={contact.id}
+          contact={contact}
+          onDeleteContact={handleDeleteContact}
+        />
       ))}
     </ol>
+  );
+};
+
+const Contact = ({ contact, onDeleteContact }) => {
+  const { id, name, number } = contact;
+  return (
+    <Li>
+      {name}: {number}
+      <Button onClick={() => onDeleteContact(id)} type="button">
+        Delete
+      </Button>
+    </Li>
   );
 };

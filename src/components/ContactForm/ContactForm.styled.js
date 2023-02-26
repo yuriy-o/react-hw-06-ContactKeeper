@@ -31,19 +31,6 @@ export const Input = styled(Field)`
   }
 `;
 
-// export const InputMask = styled(MaskedInput)`
-export const InputMask = styled(Field)`
-  margin-bottom: 10px;
-  width: 97%;
-  height: 30px;
-  font-size: 20px;
-
-  ::placeholder {
-    font-size: 14px;
-    font-style: italic;
-  }
-`;
-
 export const Button = styled.button`
   display: block;
   width: 150px;
