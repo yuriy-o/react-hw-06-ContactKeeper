@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterChange, getContactsValue } from 'redux/phonebookSlice';
 import { Input, Label, Text } from './ContactsFilter.styled';
@@ -16,15 +15,12 @@ export const ContactsFilter = () => {
       <Text>Find contacts by name</Text>
       <Input
         type="text"
+        name="filter"
+        value={filter}
         onChange={onFilterChange}
         placeholder="Enter a name to search for"
-        name="filter"
         required
       />
     </Label>
   );
-};
-
-ContactsFilter.propTypes = {
-  handleInputChange: PropTypes.func.isRequired,
 };
