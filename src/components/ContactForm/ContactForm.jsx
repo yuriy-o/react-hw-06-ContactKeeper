@@ -1,8 +1,8 @@
 import { Field, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-// import ReactInputMask from 'react-input-mask';
-import InputMask from 'react-input-mask';
+// import InputMask from 'react-input-mask';
+import ReactInputMask from 'react-input-mask';
 
 import { addContact } from 'redux/phonebookSlice';
 import { selectContacts } from 'redux/selectors';
@@ -67,7 +67,7 @@ export const ContactForm = () => {
       onSubmit={handleSubmit}
       validationSchema={Schema}
     >
-      <FormStyle>
+      <FormStyle autoComplete="off">
         <Label>
           <Span>Name</Span>
           <Input
@@ -83,7 +83,7 @@ export const ContactForm = () => {
           <Span>Number</Span>
           <Field name="number" required>
             {({ field }) => (
-              <InputMask
+              <ReactInputMask
                 {...field}
                 mask="+38 (099) 999-9999"
                 maskchar="_"
@@ -101,31 +101,7 @@ export const ContactForm = () => {
               />
             )}
           </Field>
-          {/* <InputMask
-            type="tel"
-            name="number"
-            mask={[
-              '+',
-              '3',
-              '8',
-              ' ',
-              '(',
-              '0',
-              /[1-9]/,
-              /\d/,
-              ')',
-              ' ',
-              /\d/,
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/,
-              /\d/,
-              /\d/,
-            ]}
-            required
-          /> */}
+
           <Error component="span" name="number" />
         </Label>
 
