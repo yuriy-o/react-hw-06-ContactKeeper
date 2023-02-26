@@ -1,32 +1,36 @@
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContactsValue, removeContact } from 'redux/phonebookSlice';
 
 import { Button, Li } from './ContactList.styled';
 
-export const ContactList = ({ removeContact, contacts }) => {
-  const contactItems = contacts.map(({ id, name, number }) => (
-    <Li key={id}>
-      {name}: {number}
-      <Button onClick={() => removeContact(id)} type="button">
-        Delete
-      </Button>
-    </Li>
-  ));
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const { contacts, filter } = useSelector(getContactsValue);
 
-  return <ol>{contactItems}</ol>;
-};
+  const getRequiredCard = () => {
+    const normalizedFilter = filter.toLowerCase();
 
-//! якщо в пропси передається МАСИВ, то пишемо дефолтні пропси
-ContactList.defaultProps = {
-  contacts: [],
-};
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
 
-ContactList.propTypes = {
-  removeContact: PropTypes.func.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired, //! або/та number
-    })
-  ),
+  const deleteCard = contactId => {
+    dispatch(removeContact(contactId));
+  };
+
+  const cards = getRequiredCard();
+
+  return (
+    <ol>
+      {cards.map(({ id, name, number }) => (
+        <Li key={id}>
+          {name}: {number}
+          <Button onClick={() => deleteCard(id)} type="button">
+            Delete
+          </Button>
+        </Li>
+      ))}
+    </ol>
+  );
 };

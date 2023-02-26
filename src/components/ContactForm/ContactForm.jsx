@@ -1,6 +1,13 @@
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+// import { addContact } from 'redux/contactsSlice';
+import { nanoid } from 'nanoid';
+// import { addContact } from '../redux/contacts/contacts-operations';
 import * as Yup from 'yup';
+
+import { addContact, getContactsValue } from 'redux/phonebookSlice';
+import { nanoidUA } from 'components/additions/nanoidUA';
 
 import {
   Button,
@@ -12,7 +19,7 @@ import {
   Error,
 } from './ContactForm.styled';
 
-const SignupSchema = Yup.object().shape({
+const Schema = Yup.object().shape({
   name: Yup.string()
     .matches(
       /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
@@ -29,24 +36,45 @@ const SignupSchema = Yup.object().shape({
     .required(),
 });
 
-const initialValues = {
-  name: '',
-  number: '',
-};
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const { contacts } = useSelector(getContactsValue);
 
-export const ContactForm = ({ onSubmitForm }) => {
+  const handleSubmit = (values, { resetForm }) => {
+    resetForm();
+
+    const { name, number } = values;
+
+    const contact = {
+      name,
+      number,
+    };
+
+    const dublicateContact = findDublicateContact(contact, contacts);
+
+    dublicateContact
+      ? alert(`${contact.name} is already in contacts`)
+      : dispatch(addContact({ ...values, id: nanoid() }));
+  };
+
+  const findDublicateContact = (contact, contactsList) => {
+    return contactsList.find(
+      item => item.name.toLowerCase() === contact.name.toLowerCase()
+    );
+  };
+
   return (
     <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmitForm}
-      validationSchema={SignupSchema}
+      initialValues={{ name: '', number: '' }}
+      onSubmit={handleSubmit}
+      validationSchema={Schema}
     >
       <FormStyle>
         <Label>
           <Span>Name</Span>
           <Input
-            name="name"
             type="text"
+            name="name"
             placeholder="Enter your first and second name"
             required
           />
@@ -56,8 +84,8 @@ export const ContactForm = ({ onSubmitForm }) => {
         <Label>
           <Span>Number</Span>
           <InputMask
-            name="number"
             type="tel"
+            name="number"
             placeholder="Enter a phone number"
             // placeholder="+38 (0__) ___-____"
             required
@@ -69,8 +97,4 @@ export const ContactForm = ({ onSubmitForm }) => {
       </FormStyle>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmitForm: PropTypes.func.isRequired,
 };
