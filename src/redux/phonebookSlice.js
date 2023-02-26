@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import contacts from '../components/additions/initialContacts.json';
+
 const phonebookSlice = createSlice({
   name: 'phonebook',
   initialState: {
-    contacts: [],
+    contacts,
     filter: '',
   },
   reducers: {
