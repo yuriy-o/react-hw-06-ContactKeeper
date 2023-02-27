@@ -2,20 +2,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeContact } from 'redux/phonebookSlice';
 import { selectContacts, selectFilter } from 'redux/selectors';
 
-import { Button, Li } from './ContactList.styled';
+import { Button, GridWrapper, Li, Name, Number } from './ContactList.styled';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
-
-  // const getRequiredCard = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
 
   const normalizedFilter = filter.toLowerCase();
 
@@ -23,15 +15,9 @@ export const ContactList = () => {
     contact.name.toLowerCase().includes(normalizedFilter)
   );
 
-  // const deleteCard = contactId => {
-  //   dispatch(removeContact(contactId));
-  // };
-
   const handleDeleteContact = contactId => {
     dispatch(removeContact(contactId));
   };
-
-  // const cards = getRequiredCard();
 
   return (
     <ol>
@@ -50,7 +36,11 @@ const Contact = ({ contact, onDeleteContact }) => {
   const { id, name, number } = contact;
   return (
     <Li>
-      {name}: {number}
+      <GridWrapper>
+        <Name>{name}:</Name>
+        <Number>{number}</Number>
+      </GridWrapper>
+
       <Button onClick={() => onDeleteContact(id)} type="button">
         Delete
       </Button>

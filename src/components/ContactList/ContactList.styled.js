@@ -21,9 +21,6 @@ export const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: all 500ms ease;
-  /* :not(:last-child) {
-    margin-right: 10px;
-  } */
 
   :hover {
     background: rgba(0, 0, 0, 0);
@@ -31,4 +28,18 @@ export const Button = styled.button`
     box-shadow: inset 0 0 0 3px #3a7999;
     transform: scale(1.05);
   }
+`;
+export const GridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  grid-template-rows: auto;
+  grid-column-gap: 15px;
+`;
+
+export const Name = styled.p`
+  justify-self: start;
+`;
+
+export const Number = styled.p`
+  justify-self: end;
 `;

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 // import MaskedInput from 'react-text-mask';
 import { Form, Field, ErrorMessage } from 'formik';
+// import InputMask from 'react-input-mask';
+import ReactInputMask from 'react-input-mask';
 
 export const FormStyle = styled(Form)`
   margin-bottom: 20px;
@@ -31,9 +33,21 @@ export const Input = styled(Field)`
   }
 `;
 
+export const InputMaskWrapper = styled(ReactInputMask)`
+  margin-bottom: 10px;
+  width: 97%;
+  height: 30px;
+  font-size: 20px;
+
+  ::placeholder {
+    font-size: 14px;
+    font-style: italic;
+  }
+`;
+
 export const Button = styled.button`
   display: block;
-  width: 150px;
+  min-width: 150px;
   height: 40px;
 
   border: none;
