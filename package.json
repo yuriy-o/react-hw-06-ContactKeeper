@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-06-phonebook",
+  "name": "react-hw-06-ContactKeeper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yuriy-o.github.io/goit-react-hw-06-phonebook/",
+  "homepage": "https://yuriy-o.github.io/react-hw-06-ContactKeeper/",
   "dependencies": {
     "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.3",
